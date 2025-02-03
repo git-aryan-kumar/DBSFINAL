@@ -1,0 +1,357 @@
+
+mysql> CREATE DATABASE NINEA;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE NINEA
+Database changed
+mysql> CREATE TABLE CUSTOMER (
+    -> CustNo INT PRIMARY KEY,
+    -> Cname VARCHAR(20),
+    -> City VARCHAR(20));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> CREATE TABLE OORDER (
+    -> OrderNo INT PRIMARY KEY,
+    -> Odate DATE,
+    -> CustNo INT,
+    -> OrdAmt INT,
+    -> FOREIGN KEY (CustNo) REFERENCES CUSTOMER (CustNo));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE ITEM (
+    -> ItemNo INT PRIMARY KEY,
+    -> UnitPrice INT);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE ORDERITEM (
+    -> OrderNo INT,
+    -> ItemNo INT,
+    -> Qty INT,
+    -> PRIMARY KEY (OrderNo,ItemNo),
+    -> FOREIGN KEY (OrderNo) REFERENCES OORDER (OrderNo),
+    -> FOREIGN KEY (ItemNo) REFERENCES ITEM (ItemNo));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE SHIPMENT (
+    -> OrderNo INT PRIMARY KEY,
+    -> ShipDate DATE,
+    -> FOREIGN KEY (OrderNo) REFERENCES OORDER (OrderNo));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO CUSTOMER (CustNo,Cname,City) VALUES (1,'Aryan','Bangalore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO CUSTOMER (CustNo,Cname,City) VALUES (2,'Aditya','Bangalore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO CUSTOMER (CustNo,Cname,City) VALUES (3,'Kiran','Bangalore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO CUSTOMER (CustNo,Cname,City) VALUES (4,'Rahul','Mysore');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO OORDER (OrderNo,Odate,CustNo,OrdAmt) VALUES (1,'2024-02-02',1,1000);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO OORDER (OrderNo,Odate,CustNo,OrdAmt) VALUES (2,'2024-02-01',1,500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO OORDER (OrderNo,Odate,CustNo,OrdAmt) VALUES (3,'2024-02-02',2,1500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO OORDER (OrderNo,Odate,CustNo,OrdAmt) VALUES (4,'2024-03-02',1,2500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO OORDER (OrderNo,Odate,CustNo,OrdAmt) VALUES (5,'2024-04-02',3,500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO OORDER (OrderNo,Odate,CustNo,OrdAmt) VALUES (6,'2024-04-03',3,1500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO OORDER (OrderNo,Odate,CustNo,OrdAmt) VALUES (7,'2024-04-06',4,2000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO ITEM (ItemNo,UnitPrice) VALUES (1,100),(2,50),(3,500),(4,20),(5,30),(6,
+200);
+Query OK, 6 rows affected (0.02 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO ORDERITEM (OrderNo,ItemNo,Qty) VALUES (1,3,3),(2,1,1),(3,4,2),(4,5,2),(
+5,1,1),(6,1,2);
+Query OK, 6 rows affected (0.02 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO SHIPMENT (OrderNo,ShipDate) VALUES (1,'2024-02-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (OrderNo,ShipDate) VALUES (2,'2024-02-01');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (OrderNo,ShipDate) VALUES (3,'2024-02-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (OrderNo,ShipDate) VALUES (4,'2024-03-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (OrderNo,ShipDate) VALUES (5,'2024-04-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (OrderNo,ShipDate) VALUES (6,'2024-04-03');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (OrderNo,ShipDate) VALUES (7,'2024-04-06');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM CUSTOMER;
++--------+--------+-----------+
+| CustNo | Cname  | City      |
++--------+--------+-----------+
+|      1 | Aryan  | Bangalore |
+|      2 | Aditya | Bangalore |
+|      3 | Kiran  | Bangalore |
+|      4 | Rahul  | Mysore    |
++--------+--------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM OORDER;
++---------+------------+--------+--------+
+| OrderNo | Odate      | CustNo | OrdAmt |
++---------+------------+--------+--------+
+|       1 | 2024-02-02 |      1 |   1000 |
+|       2 | 2024-02-01 |      1 |    500 |
+|       3 | 2024-02-02 |      2 |   1500 |
+|       4 | 2024-03-02 |      1 |   2500 |
+|       5 | 2024-04-02 |      3 |    500 |
+|       6 | 2024-04-03 |      3 |   1500 |
+|       7 | 2024-04-06 |      4 |   2000 |
++---------+------------+--------+--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM ORDERITEM;
++---------+--------+------+
+| OrderNo | ItemNo | Qty  |
++---------+--------+------+
+|       1 |      3 |    3 |
+|       2 |      1 |    1 |
+|       3 |      4 |    2 |
+|       4 |      5 |    2 |
+|       5 |      1 |    1 |
+|       6 |      1 |    2 |
++---------+--------+------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM ITEM;
++--------+-----------+
+| ItemNo | UnitPrice |
++--------+-----------+
+|      1 |       100 |
+|      2 |        50 |
+|      3 |       500 |
+|      4 |        20 |
+|      5 |        30 |
+|      6 |       200 |
++--------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM SHIPMENT;
++---------+------------+
+| OrderNo | ShipDate   |
++---------+------------+
+|       1 | 2024-02-02 |
+|       2 | 2024-02-01 |
+|       3 | 2024-02-02 |
+|       4 | 2024-03-02 |
+|       5 | 2024-04-02 |
+|       6 | 2024-04-03 |
+|       7 | 2024-04-06 |
++---------+------------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT C.Cname,COUNT(O.OrderNo) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> GROUP BY C.Cname;
++--------+------------------+
+| Cname  | COUNT(O.OrderNo) |
++--------+------------------+
+| Aryan  |                3 |
+| Aditya |                1 |
+| Kiran  |                2 |
+| Rahul  |                1 |
++--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT C.Cname,COUNT(O.OrderNo) AS COUNTORDER FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> GROUP BY C.Cname
+    -> HAVING COUNT(O.OrderNo) >= 2;
++-------+------------+
+| Cname | COUNTORDER |
++-------+------------+
+| Aryan |          3 |
+| Kiran |          2 |
++-------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT O.Odate,O.OrdAmt FROM OORDER O;
++------------+--------+
+| Odate      | OrdAmt |
++------------+--------+
+| 2024-02-02 |   1000 |
+| 2024-02-01 |    500 |
+| 2024-02-02 |   1500 |
+| 2024-03-02 |   2500 |
+| 2024-04-02 |    500 |
+| 2024-04-03 |   1500 |
+| 2024-04-06 |   2000 |
++------------+--------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT O.Odate,SUM(O.OrdAmt) FROM OORDER O
+    -> GROUP BY O.Odate;
++------------+---------------+
+| Odate      | SUM(O.OrdAmt) |
++------------+---------------+
+| 2024-02-02 |          2500 |
+| 2024-02-01 |           500 |
+| 2024-03-02 |          2500 |
+| 2024-04-02 |           500 |
+| 2024-04-03 |          1500 |
+| 2024-04-06 |          2000 |
++------------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT C.Cname FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> WHERE O.OrdAmt = (SELECT MAX(OrdAmt) FROM OORDER);
++-------+
+| Cname |
++-------+
+| Aryan |
++-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT C.Cname,O.OrdAmt FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> WHERE O.OrdAmt = (SELECT MAX(OrdAmt) FROM OORDER);
++-------+--------+
+| Cname | OrdAmt |
++-------+--------+
+| Aryan |   2500 |
++-------+--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT C.Cname,SUM(O.OrdAmt) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> WHERE O.OrdAmt = (SELECT MAX(OrdAmt) FROM OORDER);
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'ninea.C.Cname'; this is incompatible with sql_mode=only_full_group_by
+mysql> SELECT C.Cname,SUM(O.OrdAmt) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> WHERE O.OrdAmt = (SELECT MAX(OrdAmt) FROM OORDER)
+    -> GROUP BY C.Cname;
++-------+---------------+
+| Cname | SUM(O.OrdAmt) |
++-------+---------------+
+| Aryan |          2500 |
++-------+---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT C.Cname,SUM(O.OrdAmt) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> GROUP BY C.Cname;
++--------+---------------+
+| Cname  | SUM(O.OrdAmt) |
++--------+---------------+
+| Aryan  |          4000 |
+| Aditya |          1500 |
+| Kiran  |          2000 |
+| Rahul  |          2000 |
++--------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT C.Cname,SUM(O.OrdAmt) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> GROUP BY C.Cname LIMIT 1;
++-------+---------------+
+| Cname | SUM(O.OrdAmt) |
++-------+---------------+
+| Aryan |          4000 |
++-------+---------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT C.Cname,COUNT(O.OrderNo) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> WHERE C.City = 'Bangalore';
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'ninea.C.Cname'; this is incompatible with sql_mode=only_full_group_by
+mysql> SELECT C.Cname,COUNT(O.OrderNo) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> WHERE C.City = 'Bangalore'
+    -> GROUP BY C.Cname;
++--------+------------------+
+| Cname  | COUNT(O.OrderNo) |
++--------+------------------+
+| Aryan  |                3 |
+| Aditya |                1 |
+| Kiran  |                2 |
++--------+------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT C.Cname,COUNT(O.OrderNo) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> GROUP BY C.Cname;
++--------+------------------+
+| Cname  | COUNT(O.OrderNo) |
++--------+------------------+
+| Aryan  |                3 |
+| Aditya |                1 |
+| Kiran  |                2 |
+| Rahul  |                1 |
++--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT C.Cname,COUNT(O.OrderNo) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> GROUP BY C.Cname;
++--------+------------------+
+| Cname  | COUNT(O.OrderNo) |
++--------+------------------+
+| Aryan  |                3 |
+| Aditya |                1 |
+| Kiran  |                2 |
+| Rahul  |                1 |
++--------+------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT C.Cname,COUNT(O.OrderNo) FROM CUSTOMER C
+    -> JOIN OORDER O ON O.CustNo = C.CustNo
+    -> GROUP BY C.Cname
+    -> HAVING COUNT(O.OrderNo) >= 3;
++-------+------------------+
+| Cname | COUNT(O.OrderNo) |
++-------+------------------+
+| Aryan |                3 |
++-------+------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT C.Cname FROM CUSTOMER C
+    -> WHERE NOT EXISTS (
+    -> SELECT 1
+    -> FROM OORDER O
+    -> JOIN ORDERITEM OI ON O.OrderNo = OI.OrderNo
+    -> WHERE O.CustNo = C.CustNo
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 6
+mysql> SELECT C.Cname FROM CUSTOMER C
+    -> WHERE NOT EXISTS (
+    -> SELECT 1
+    -> FROM OORDER O
+    -> JOIN ORDERITEM OI ON O.OrderNo = OI.OrderNo
+    -> WHERE O.CustNo = C.CustNo
+    -> );
++-------+
+| Cname |
++-------+
+| Rahul |
++-------+
+1 row in set (0.00 sec)
+
+mysql>
