@@ -1,0 +1,203 @@
+mysql> CREATE DATABASE SIXA;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE SIXA
+Database changed
+mysql> DROP DATABASE SIXA;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> USE TWOA;
+Database changed
+mysql> SELECT * FROM EMPLOYEE;
++---------+--------------+------+--------------+------+--------+----------+------+
+| Fname   | Lname        | SSN  | Addrs        | Sex  | Salary | SuperSSN | Dno  |
++---------+--------------+------+--------------+------+--------+----------+------+
+| Virat   | Kohli        | 1001 | Delhi        | M    | 300000 |     NULL |    1 |
+| Rohit   | Sharma       | 1002 | Mumbai       | M    | 250000 |     1001 |    1 |
+| Jasprit | Bumrah       | 1003 | Surat        | M    | 250000 |     1001 |    1 |
+| KL      | Rahul        | 1004 | Bangalore    | M    | 200000 |     1001 |    1 |
+| Yuzi    | Chahal       | 1005 | Chandigharh  | M    | 180000 |     1001 |    1 |
+| Steve   | Smith        | 2001 | Sydney       | M    | 250000 |     NULL |    2 |
+| Ellyse  | Perry        | 2002 | Melbourne    | M    | 150000 |     2001 |    2 |
+| Allysa  | Healy        | 2003 | Adelaide     | M    | 150000 |     2002 |    2 |
+| David   | Warner       | 2004 | Adelaide     | M    | 200000 |     2001 |    2 |
+| Joe     | Root         | 3001 | Manchester   | M    | 250000 |     NULL |    3 |
+| Nat     | Sciver-Brunt | 3002 | London       | F    | 150000 |     3001 |    3 |
+| Dan     | Wyatt        | 3003 | Birmingham   | F    | 100000 |     3002 |    3 |
+| Benn    | Stokes       | 3004 | Bristol      | M    | 200000 |     3001 |    3 |
+| Phil    | Salt         | 3005 | Liverpool    | M    |  80000 |     3001 |    3 |
+| Shai    | Hope         | 4001 | Bridgetown   | M    | 900000 |     NULL |    4 |
+| Shimron | Hetmyer      | 4002 | Georgetown   | M    |  10000 |     4001 |    4 |
+| Kane    | Williamson   | 5001 | Auckland     | M    | 200000 |     NULL |    5 |
+| Trent   | Boult        | 5002 | Wellington   | M    | 100000 |     5001 |    5 |
+| Tim     | Southee      | 5003 | Christchurch | M    | 150000 |     5001 |    5 |
++---------+--------------+------+--------------+------+--------+----------+------+
+19 rows in set (0.00 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++-------------+---------+--------+--------------+
+| Dname       | Dnumber | MgrSSN | MgrStartDate |
++-------------+---------+--------+--------------+
+| India       |       1 |   1001 | 2000-02-02   |
+| Australia   |       2 |   2001 | 2002-04-04   |
+| England     |       3 |   3001 | 2008-04-06   |
+| West Indies |       4 |   4001 | 2018-02-06   |
+| New Zealand |       5 |   5001 | 2018-10-06   |
++-------------+---------+--------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM DEPENDENT;
+ERROR 1146 (42S02): Table 'twoa.dependent' doesn't exist
+mysql> CREATE TABLE DEPENDENT (
+    -> Dname VARCHAR(20),
+    -> ESSN INT,
+    -> PRIMARY KEY (Dname,ESSN),
+    -> FOREIGN KEY (ESSN) REFERENCES EMPLOYEE (SSN));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('India',1001);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('Australia',2001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('England',3001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('West Indies',4001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('New Zealand',5001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM DEPENDENT;
++-------------+------+
+| Dname       | ESSN |
++-------------+------+
+| India       | 1001 |
+| Australia   | 2001 |
+| England     | 3001 |
+| West Indies | 4001 |
+| New Zealand | 5001 |
++-------------+------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT D.Dname,E.Salary FROM DEPARTMENT D;
+ERROR 1054 (42S22): Unknown column 'E.Salary' in 'field list'
+mysql> SELECT D.Dname,AVG(E.Salary) AS AVERAGESALARY FROM DEPARTMENT D
+    -> JOIN EMPLOYEE E ON E.SSN = D.MgrSSN
+    -> GROUP BY D.Dname;
++-------------+---------------+
+| Dname       | AVERAGESALARY |
++-------------+---------------+
+| India       |   300000.0000 |
+| Australia   |   250000.0000 |
+| England     |   250000.0000 |
+| West Indies |   900000.0000 |
+| New Zealand |   200000.0000 |
++-------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('New Zealand',5002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('New Zealand',5003);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('India',1002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('India',1003);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('India',1004);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('India',1005);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('Australia',2002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('Australia',2003);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('Australia',2004);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('England',3002);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('England',3003);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('England',3004);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPENDENT (Dname, ESSN) VALUES ('England',3005);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT D.Dname,AVG(E.Salary) AS AVERAGESALARY FROM DEPARTMENT D
+    -> JOIN EMPLOYEE E ON E.SSN = D.MgrSSN
+    -> GROUP BY D.Dname;
++-------------+---------------+
+| Dname       | AVERAGESALARY |
++-------------+---------------+
+| India       |   300000.0000 |
+| Australia   |   250000.0000 |
+| England     |   250000.0000 |
+| West Indies |   900000.0000 |
+| New Zealand |   200000.0000 |
++-------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT D.Dname,SUM(E.Salary) AS AVERAGESALARY FROM DEPARTMENT D
+    -> JOIN EMPLOYEE E ON E.SSN = D.MgrSSN
+    -> GROUP BY D.Dname;
++-------------+---------------+
+| Dname       | AVERAGESALARY |
++-------------+---------------+
+| India       |        300000 |
+| Australia   |        250000 |
+| England     |        250000 |
+| West Indies |        900000 |
+| New Zealand |        200000 |
++-------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT E.Fname,E.Lname FROM EMPLOYEE E
+    -> JOIN DEPARTMENT D ON D.MgrSSN = E.SSN
+    -> JOIN DEPENDENT DE ON DE.ESSN = E.SSN
+    -> WHERE D.MgrSSN IN (SELECT ESSN FROM DEPENDENT);
++-------+------------+
+| Fname | Lname      |
++-------+------------+
+| Virat | Kohli      |
+| Steve | Smith      |
+| Joe   | Root       |
+| Shai  | Hope       |
+| Kane  | Williamson |
++-------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT D.Dname FROM DEPARTMENT D WHERE D.Dname LIKE "%a%";
++-------------+
+| Dname       |
++-------------+
+| India       |
+| Australia   |
+| England     |
+| New Zealand |
++-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT D.Dname FROM DEPARTMENT D WHERE D.Dname LIKE "%and%";
++-------------+
+| Dname       |
++-------------+
+| England     |
+| New Zealand |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql>
