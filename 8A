@@ -1,0 +1,207 @@
+mysql> CREATE DATABASE EIGHTA;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE EIGHTA
+Database changed
+mysql> CREATE TABLE PLAYER (
+    -> PId INT PRIMARY KEY,
+    -> Lname VARCHAR(20),
+    -> Fname VARCHAR(20),
+    -> Country VARCHAR(20),
+    -> Yborn INT,
+    -> Bplace VARCHAR(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE MATCHES (
+    -> MatchId INT PRIMARY KEY,
+    -> Team1 VARCHAR(20),
+    -> Team2 VARCHAR(20),
+    -> Ground VARCHAR(20),
+    -> Date DATE,
+    -> Winner VARCHAR(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE BATTING (
+    -> MatchId INT,
+    -> PId INT,
+    -> Nruns INT,
+    -> Fours INT,
+    -> Sixes INT,
+    -> PRIMARY KEY (MatchId, PId),
+    -> FOREIGN KEY (MatchId) REFERENCES MATCHES (MatchId),
+    -> FOREIGN KEY (PId) REFERENCES PLAYER (PId));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE BOWLING (
+    -> MatchId INT,
+    -> PId INT,
+    -> Novers INT,
+    -> Maidens INT,
+    -> Nruns INT,
+    -> Nwickets INT,
+    -> PRIMARY KEY (MatchId, PId),
+    -> FOREIGN KEY (MatchId) REFERENCES MATCHES (MatchId),
+    -> FOREIGN KEY (PId) REFERENCES PLAYER (PId));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO PLAYER (PId,Lname,Fname,Country,Yborn,Bplace) VALUES (1,'Dhoni','MS','I
+ndia',1980,'Ranchi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PLAYER (PId,Lname,Fname,Country,Yborn,Bplace) VALUES (2,'Ponting','Ricky','Australia',1970,'Sydney');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PLAYER (PId,Lname,Fname,Country,Yborn,Bplace) VALUES (3,'Jadeja','Ravindra','India',1990,'Ahmedabad');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PLAYER (PId,Lname,Fname,Country,Yborn,Bplace) VALUES (4,'Maxwell','Glenn','Australia',1986,'Brisbane');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PLAYER (PId,Lname,Fname,Country,Yborn,Bplace) VALUES (5,'Starc','Mitchell','Australia',1988,'Adelaide');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PLAYER (PId,Lname,Fname,Country,Yborn,Bplace) VALUES (6,'Bumrah','Jasprit','India',1994,'Mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO MATCHES (MatchId,Team1,Team2,Ground,Date,Winner) VALUES (2689,'Australi
+a','India','SCG','2024-02-02','India');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO MATCHES (MatchId,Team1,Team2,Ground,Date,Winner) VALUES (2690,'Australi
+a','India','MCG','2024-04-04','India');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO MATCHES (MatchId,Team1,Team2,Ground,Date,Winner) VALUES (2691,'India','
+Australia','Adelaide Oval','2024-06-04','Australia');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO MATCHES (MatchId,Team1,Team2,Ground,Date,Winner) VALUES (2692,'Australi
+a','India','Gabba','2024-06-08','India');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BATTING (MatchId,PId,Nruns,Fours,Sixes) VALUES (2689,1,50,3,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BATTING (MatchId,PId,Nruns,Fours,Sixes) VALUES (2689,2,40,4,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BATTING (MatchId,PId,Nruns,Fours,Sixes) VALUES (2690,1,80,8,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BATTING (MatchId,PId,Nruns,Fours,Sixes) VALUES (2690,2,0,0,0);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BATTING (MatchId,PId,Nruns,Fours,Sixes) VALUES (2691,1,10,1,0);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BATTING (MatchId,PId,Nruns,Fours,Sixes) VALUES (2691,2,100,10,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BATTING (MatchId,PId,Nruns,Fours,Sixes) VALUES (2692,3,0,0,0);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BOWLING (MatchId,PId,Novers,Maidens,Nruns,Nwickets) VALUES (2689,4,5,2,
+2);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO BOWLING (MatchId,PId,Novers,Maidens,Nruns,Nwickets) VALUES (2690,4,4,2,
+0);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO BOWLING (MatchId,PId,Novers,Maidens,Nruns,Nwickets) VALUES (2691,6,6,2,
+0);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> INSERT INTO BOWLING (MatchId,PId,Novers,Maidens,Nruns,Nwickets) VALUES (2689,4,5,2,2,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BOWLING (MatchId,PId,Novers,Maidens,Nruns,Nwickets) VALUES (2690,6,5,10,2,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM MATCHES;
++---------+-----------+-----------+---------------+------------+-----------+
+| MatchId | Team1     | Team2     | Ground        | Date       | Winner    |
++---------+-----------+-----------+---------------+------------+-----------+
+|    2689 | Australia | India     | SCG           | 2024-02-02 | India     |
+|    2690 | Australia | India     | MCG           | 2024-04-04 | India     |
+|    2691 | India     | Australia | Adelaide Oval | 2024-06-04 | Australia |
+|    2692 | Australia | India     | Gabba         | 2024-06-08 | India     |
++---------+-----------+-----------+---------------+------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PLAYER;
++-----+---------+----------+-----------+-------+-----------+
+| PId | Lname   | Fname    | Country   | Yborn | Bplace    |
++-----+---------+----------+-----------+-------+-----------+
+|   1 | Dhoni   | MS       | India     |  1980 | Ranchi    |
+|   2 | Ponting | Ricky    | Australia |  1970 | Sydney    |
+|   3 | Jadeja  | Ravindra | India     |  1990 | Ahmedabad |
+|   4 | Maxwell | Glenn    | Australia |  1986 | Brisbane  |
+|   5 | Starc   | Mitchell | Australia |  1988 | Adelaide  |
+|   6 | Bumrah  | Jasprit  | India     |  1994 | Mumbai    |
++-----+---------+----------+-----------+-------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM BATTING;
++---------+-----+-------+-------+-------+
+| MatchId | PId | Nruns | Fours | Sixes |
++---------+-----+-------+-------+-------+
+|    2689 |   1 |    50 |     3 |     2 |
+|    2689 |   2 |    40 |     4 |     2 |
+|    2690 |   1 |    80 |     8 |     2 |
+|    2690 |   2 |     0 |     0 |     0 |
+|    2691 |   1 |    10 |     1 |     0 |
+|    2691 |   2 |   100 |    10 |     2 |
+|    2692 |   3 |     0 |     0 |     0 |
++---------+-----+-------+-------+-------+
+7 rows in set (0.00 sec)
+
+mysql> SELECT * FROM BOWLING;
++---------+-----+--------+---------+-------+----------+
+| MatchId | PId | Novers | Maidens | Nruns | Nwickets |
++---------+-----+--------+---------+-------+----------+
+|    2689 |   4 |      5 |       2 |     2 |        1 |
+|    2690 |   6 |      5 |      10 |     2 |        1 |
++---------+-----+--------+---------+-------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Ground FROM MATCHES WHERE Team1 = 'Australia';
++--------+
+| Ground |
++--------+
+| SCG    |
+| MCG    |
+| Gabba  |
++--------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT M.MatchId,M.Team1,M.Team2,M.Ground,M.Date,M.Winner FROM MATCHES M
+    -> JOIN BATTING B ON B.MatchId = M.MatchId
+    -> JOIN PLAYER P ON P.PId = B.PId
+    -> WHERE P.Lname = 'Dhoni';
++---------+-----------+-----------+---------------+------------+-----------+
+| MatchId | Team1     | Team2     | Ground        | Date       | Winner    |
++---------+-----------+-----------+---------------+------------+-----------+
+|    2689 | Australia | India     | SCG           | 2024-02-02 | India     |
+|    2690 | Australia | India     | MCG           | 2024-04-04 | India     |
+|    2691 | India     | Australia | Adelaide Oval | 2024-06-04 | Australia |
++---------+-----------+-----------+---------------+------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT P.Fname,P.Lname FROM PLAYER P
+    -> JOIN BATTING B ON B.PId = M.PId
+    -> WHERE B.MatchId = 2689;
+ERROR 1054 (42S22): Unknown column 'M.PId' in 'on clause'
+mysql> SELECT P.Fname,P.Lname FROM PLAYER P
+    -> JOIN BATTING B ON B.PId = M.PId
+    -> WHERE B.MatchId = 2689;
+ERROR 1054 (42S22): Unknown column 'M.PId' in 'on clause'
+mysql> SELECT P.Fname,P.Lname FROM PLAYER P
+    -> JOIN BATTING B ON B.PId = P.PId
+    -> WHERE B.MatchId = 2689;
++-------+---------+
+| Fname | Lname   |
++-------+---------+
+| MS    | Dhoni   |
+| Ricky | Ponting |
++-------+---------+
+2 rows in set (0.00 sec)
+
+mysql>
