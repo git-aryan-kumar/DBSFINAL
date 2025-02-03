@@ -1,0 +1,220 @@
+mysql> CREATE DATABASE FOURA;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE FOURA
+Database changed
+mysql> CREATE TABLE SUPPLIER (
+    -> Sid INT PRIMARY KEY,
+    -> Sname VARCHAR(20),
+    -> Address VARCHAR(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE PART (
+    -> PID INT PRIMARY KEY,
+    -> Pname VARCHAR(20),
+    -> Color VARCHAR(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE SHIPMENT (
+    -> Sid INT,
+    -> PID INT,
+    -> Cost INT,
+    -> PRIMARY KEY (Sid,PID),
+    -> FOREIGN KEY (Sid) REFERENCES SUPPLIER (Sid),
+    -> FOREIGN KEY (PID) REFERENCES PART (PID));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO SUPPLIER (Sid, Sname, Address) VALUES (1,'S1','Bangalore');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO SUPPLIER (Sid, Sname, Address) VALUES (2,'S2','Mumbai');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SUPPLIER (Sid, Sname, Address) VALUES (3,'S3','Delhi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (1,'Latch','Red');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (2,'Knob','Green');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (3,'Bolt','Blue');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (4,'Screw','Pink');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (5,'Screwdriver','Purple');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (6,'Chair','Indigo');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (7,'Table','Violet');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (8,'Mirror','Orange');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PART (PID, Pname, Color) VALUES (9,'Belt Buckle','Gold');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (1,1,100);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (1,2,200);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (1,3,300);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (2,4,400);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (2,5,500);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (2,6,600);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (3,7,700);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (3,8,800);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SHIPMENT (Sid, PID, Cost) VALUES (3,9,900);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM SUPPLIER;
++-----+-------+-----------+
+| Sid | Sname | Address   |
++-----+-------+-----------+
+|   1 | S1    | Bangalore |
+|   2 | S2    | Mumbai    |
+|   3 | S3    | Delhi     |
++-----+-------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PART;
++-----+-------------+--------+
+| PID | Pname       | Color  |
++-----+-------------+--------+
+|   1 | Latch       | Red    |
+|   2 | Knob        | Green  |
+|   3 | Bolt        | Blue   |
+|   4 | Screw       | Pink   |
+|   5 | Screwdriver | Purple |
+|   6 | Chair       | Indigo |
+|   7 | Table       | Violet |
+|   8 | Mirror      | Orange |
+|   9 | Belt Buckle | Gold   |
++-----+-------------+--------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT * FROM SHIPMENT;
++-----+-----+------+
+| Sid | PID | Cost |
++-----+-----+------+
+|   1 |   1 |  100 |
+|   1 |   2 |  200 |
+|   1 |   3 |  300 |
+|   2 |   4 |  400 |
+|   2 |   5 |  500 |
+|   2 |   6 |  600 |
+|   3 |   7 |  700 |
+|   3 |   8 |  800 |
+|   3 |   9 |  900 |
++-----+-----+------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT S.Sid FROM SUPPLIER S
+    -> JOIN SHIPMENT SH ON SH.Sid = S.Sid
+    -> JOIN PART P ON P.PID = SH.PID
+    -> WHERE P.Color = 'Green';
++-----+
+| Sid |
++-----+
+|   1 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> SELECT S.Sid FROM SUPPLIER S
+    -> JOIN SHIPMENT SH ON SH.Sid = S.Sid
+    -> JOIN PART P ON P.PID = SH.PID
+    -> WHERE P.Color = 'Orange';
++-----+
+| Sid |
++-----+
+|   3 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> SELECT S.Sname,SUM(P.Pid) FROM SUPPLIER S
+    -> JOIN SHIPMENT SH ON SH.Sid;
+ERROR 1054 (42S22): Unknown column 'P.Pid' in 'field list'
+mysql> SELECT S.Sname,SUM(P.PID) FROM SUPPLIER S
+    -> JOIN SHIPMENT SH ON SH.Sid = S.Sid
+    -> JOIN PART P ON P.PID = SH.PID
+    -> GROUP BY S.Sname;
++-------+------------+
+| Sname | SUM(P.PID) |
++-------+------------+
+| S1    |          6 |
+| S2    |         15 |
+| S3    |         24 |
++-------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT S.Sname,SUM(P.PID) FROM SUPPLIER S
+    -> JOIN SHIPMENT SH ON SH.Sid = S.Sid
+    -> JOIN PART P ON P.PID = SH.PID
+    -> GROUP BY S.Sname;
++-------+------------+
+| Sname | SUM(P.PID) |
++-------+------------+
+| S1    |          6 |
+| S2    |         15 |
+| S3    |         24 |
++-------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT S.Sname,COUNT(P.PID) FROM SUPPLIER S
+    -> JOIN SHIPMENT SH ON SH.Sid = S.Sid
+    -> JOIN PART P ON P.PID = SH.PID
+    -> GROUP BY S.Sname;
++-------+--------------+
+| Sname | COUNT(P.PID) |
++-------+--------------+
+| S1    |            3 |
+| S2    |            3 |
+| S3    |            3 |
++-------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> UPDATE PART P
+    -> JOIN SHIPMENT SH ON SH.PID = P.PID
+    -> JOIN SUPPLIER S ON S.Sid = SH.Sid
+    -> SET P.Color = 'Yellow'
+    -> WHERE S.Sname = 'S3';
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> SELECT * FROM PART;
++-----+-------------+--------+
+| PID | Pname       | Color  |
++-----+-------------+--------+
+|   1 | Latch       | Red    |
+|   2 | Knob        | Green  |
+|   3 | Bolt        | Blue   |
+|   4 | Screw       | Pink   |
+|   5 | Screwdriver | Purple |
+|   6 | Chair       | Indigo |
+|   7 | Table       | Yellow |
+|   8 | Mirror      | Yellow |
+|   9 | Belt Buckle | Yellow |
++-----+-------------+--------+
+9 rows in set (0.00 sec)
+
+mysql>
