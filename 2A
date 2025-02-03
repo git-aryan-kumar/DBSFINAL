@@ -1,0 +1,450 @@
+mysql> CREATE DATABASE TWOA
+    -> ;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE TWOA;
+Database changed
+mysql> CREATE TABLE EMPLOYEE (
+    -> Fname VARCHAR(20),
+    -> Lname VARCHAR(20),
+    -> SSN INT PRIMARY KEY,
+    -> Addrs VARCHAR(20),
+    -> Sex VARCHAR(1),
+    -> Salary INT,
+    -> SuperSSN INT,
+    -> Dno INT,
+    -> FOREIGN KEY (SuperSSN) REFERENCES EMPLOYEE (SSN));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE DEPARTMENT (
+    -> Dname VARCHAR(20),
+    -> Dnumber INT PRIMARY KEY,
+    -> MgrSSN INT,
+    -> MgrStartDate DATE,
+    -> FOREIGN KEY (MgrSSN) REFERENCES EMPLOYEE (SSN));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> CREATE TABLE PROJECT (
+    -> PNo INT PRIMARY KEY,
+    -> Pname VARCHAR(20),
+    -> Dnum INT,
+    -> FOREIGN KEY (Dnum) REFERENCES DEPARTMENT (Dnumber));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE WORKS_ON (
+    -> ESSN INT,
+    -> Pno INT,
+    -> Hours INT,
+    -> PRIMARY KEY (ESSN,Pno),
+    -> FOREIGN KEY (ESSN) REFERENCES EMPLOYEE (SSN),
+    -> FOREIGN KEY (Pno) REFERENCES PROJECT (Pno));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALU
+ES ('Virat','Kohli',1001,'Delhi','M',300000,NULL,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Rohit','Sharma',1002,'Mumbai','M',250000,1001,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Jasprit','Bumrah',1003,'Surat','M',250000,1001,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('KL','Rahul',1004,'Bangalore','M',200000,1001,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Yuzi','Chahal',1005,'Chandigharh','M',180000,1001,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Steve','Smith',2001,'Sydney','M',250000,NULL,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Ellyse','Perry',2002,'Melbourne','M',150000,2001,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Allysa','Healy',2003,'Adelaide','M',150000,2002,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('David','Warner',2004,'Adelaide','M',200000,2001,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Joe','Root',3001,'Manchester','M',250000,NULL,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Nat','Sciver-Brunt',3002,'London','F',150000,3001,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Dan','Wyatt',3003,'Birmingham','F',100000,3002,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Benn','Stokes',3004,'Bristol','M',200000,3001,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Phil','Salt',3005,'Liverpool','M',80000,3001,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Shai','Hope',4001,'Bridgetown','M',900000,NULL,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Shimron','Hetmyer',4002,'Georgetown','M',10000,4001,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Kane','Williamson',5001,'Auckland','M',200000,NULL,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Trent','Boult',5002,'Wellington','M',100000,5001,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO EMPLOYEE (Fname,Lname,SSN,Addrs,Sex,Salary,SuperSSN,Dno) VALUES ('Tim','Southee',5003,'Christchurch','M',150000,5001,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++---------+--------------+------+--------------+------+--------+----------+------+
+| Fname   | Lname        | SSN  | Addrs        | Sex  | Salary | SuperSSN | Dno  |
++---------+--------------+------+--------------+------+--------+----------+------+
+| Virat   | Kohli        | 1001 | Delhi        | M    | 300000 |     NULL |    1 |
+| Rohit   | Sharma       | 1002 | Mumbai       | M    | 250000 |     1001 |    1 |
+| Jasprit | Bumrah       | 1003 | Surat        | M    | 250000 |     1001 |    1 |
+| KL      | Rahul        | 1004 | Bangalore    | M    | 200000 |     1001 |    1 |
+| Yuzi    | Chahal       | 1005 | Chandigharh  | M    | 180000 |     1001 |    1 |
+| Steve   | Smith        | 2001 | Sydney       | M    | 250000 |     NULL |    2 |
+| Ellyse  | Perry        | 2002 | Melbourne    | M    | 150000 |     2001 |    2 |
+| Allysa  | Healy        | 2003 | Adelaide     | M    | 150000 |     2002 |    2 |
+| David   | Warner       | 2004 | Adelaide     | M    | 200000 |     2001 |    2 |
+| Joe     | Root         | 3001 | Manchester   | M    | 250000 |     NULL |    3 |
+| Nat     | Sciver-Brunt | 3002 | London       | F    | 150000 |     3001 |    3 |
+| Dan     | Wyatt        | 3003 | Birmingham   | F    | 100000 |     3002 |    3 |
+| Benn    | Stokes       | 3004 | Bristol      | M    | 200000 |     3001 |    3 |
+| Phil    | Salt         | 3005 | Liverpool    | M    |  80000 |     3001 |    3 |
+| Shai    | Hope         | 4001 | Bridgetown   | M    | 900000 |     NULL |    4 |
+| Shimron | Hetmyer      | 4002 | Georgetown   | M    |  10000 |     4001 |    4 |
+| Kane    | Williamson   | 5001 | Auckland     | M    | 200000 |     NULL |    5 |
+| Trent   | Boult        | 5002 | Wellington   | M    | 100000 |     5001 |    5 |
+| Tim     | Southee      | 5003 | Christchurch | M    | 150000 |     5001 |    5 |
++---------+--------------+------+--------------+------+--------+----------+------+
+19 rows in set (0.00 sec)
+
+mysql> INSERT INTO DEPARTMENT (Dname, Dnumber, MgrSSN, MgrStartDate) VALUES ('India',1,1001,'2000-02-02');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPARTMENT (Dname, Dnumber, MgrSSN, MgrStartDate) VALUES ('Australia',2,2001,'2002-04-04');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPARTMENT (Dname, Dnumber, MgrSSN, MgrStartDate) VALUES ('England',3,3001,'2008-04-06');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPARTMENT (Dname, Dnumber, MgrSSN, MgrStartDate) VALUES ('West Indies'
+,4,4001,'2018-02-06');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO DEPARTMENT (Dname, Dnumber, MgrSSN, MgrStartDate) VALUES ('New Zealand',5,5001,'2018-10-06');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++-------------+---------+--------+--------------+
+| Dname       | Dnumber | MgrSSN | MgrStartDate |
++-------------+---------+--------+--------------+
+| India       |       1 |   1001 | 2000-02-02   |
+| Australia   |       2 |   2001 | 2002-04-04   |
+| England     |       3 |   3001 | 2008-04-06   |
+| West Indies |       4 |   4001 | 2018-02-06   |
+| New Zealand |       5 |   5001 | 2018-10-06   |
++-------------+---------+--------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (1,'T20 World Cup',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (2,'ODI World Cup',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (3,'World Test Championship',1);
+ERROR 1406 (22001): Data too long for column 'Pname' at row 1
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (3,'WTC',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (4,'U19',2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (5,'IPL',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (6,'CPL',4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (7,'NZ T20 Blast',5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (8,'NZ ODI Blast',5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (9,'Vitality Blast',4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO PROJECT (Pno, Pname, Dnum) VALUES (10,'KFC BBL',2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM PROJECT;
++-----+----------------+------+
+| PNo | Pname          | Dnum |
++-----+----------------+------+
+|   1 | T20 World Cup  |    1 |
+|   2 | ODI World Cup  |    1 |
+|   3 | WTC            |    1 |
+|   4 | U19            |    2 |
+|   5 | IPL            |    3 |
+|   6 | CPL            |    4 |
+|   7 | NZ T20 Blast   |    5 |
+|   8 | NZ ODI Blast   |    5 |
+|   9 | Vitality Blast |    4 |
+|  10 | KFC BBL        |    2 |
++-----+----------------+------+
+10 rows in set (0.00 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (1001,1,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (1002,1,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (1003,2,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (1004,3,8);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (1005,3,6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (1001,3,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (2001,4,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (2002,4,6);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (2002,9,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (2003,9,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (3001,5,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (3002,5,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (4001,6,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (4001,9,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (4002,6,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (5001,7,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (5001,8,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (5002,8,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO WORKS_ON (ESSN, Pno, Hours) VALUES (5002,7,8);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM WORKS_ON;
++------+-----+-------+
+| ESSN | Pno | Hours |
++------+-----+-------+
+| 1001 |   1 |     5 |
+| 1001 |   3 |     4 |
+| 1002 |   1 |     5 |
+| 1003 |   2 |    10 |
+| 1004 |   3 |     8 |
+| 1005 |   3 |     6 |
+| 2001 |   4 |     5 |
+| 2002 |   4 |     6 |
+| 2002 |   9 |     2 |
+| 2003 |   9 |     1 |
+| 3001 |   5 |     4 |
+| 3002 |   5 |     3 |
+| 4001 |   6 |     4 |
+| 4001 |   9 |     2 |
+| 4002 |   6 |     3 |
+| 5001 |   7 |     4 |
+| 5001 |   8 |     2 |
+| 5002 |   7 |     8 |
+| 5002 |   8 |     4 |
++------+-----+-------+
+19 rows in set (0.00 sec)
+
+mysql> SELECT * FROM EMPLOYEE;
++---------+--------------+------+--------------+------+--------+----------+------+
+| Fname   | Lname        | SSN  | Addrs        | Sex  | Salary | SuperSSN | Dno  |
++---------+--------------+------+--------------+------+--------+----------+------+
+| Virat   | Kohli        | 1001 | Delhi        | M    | 300000 |     NULL |    1 |
+| Rohit   | Sharma       | 1002 | Mumbai       | M    | 250000 |     1001 |    1 |
+| Jasprit | Bumrah       | 1003 | Surat        | M    | 250000 |     1001 |    1 |
+| KL      | Rahul        | 1004 | Bangalore    | M    | 200000 |     1001 |    1 |
+| Yuzi    | Chahal       | 1005 | Chandigharh  | M    | 180000 |     1001 |    1 |
+| Steve   | Smith        | 2001 | Sydney       | M    | 250000 |     NULL |    2 |
+| Ellyse  | Perry        | 2002 | Melbourne    | M    | 150000 |     2001 |    2 |
+| Allysa  | Healy        | 2003 | Adelaide     | M    | 150000 |     2002 |    2 |
+| David   | Warner       | 2004 | Adelaide     | M    | 200000 |     2001 |    2 |
+| Joe     | Root         | 3001 | Manchester   | M    | 250000 |     NULL |    3 |
+| Nat     | Sciver-Brunt | 3002 | London       | F    | 150000 |     3001 |    3 |
+| Dan     | Wyatt        | 3003 | Birmingham   | F    | 100000 |     3002 |    3 |
+| Benn    | Stokes       | 3004 | Bristol      | M    | 200000 |     3001 |    3 |
+| Phil    | Salt         | 3005 | Liverpool    | M    |  80000 |     3001 |    3 |
+| Shai    | Hope         | 4001 | Bridgetown   | M    | 900000 |     NULL |    4 |
+| Shimron | Hetmyer      | 4002 | Georgetown   | M    |  10000 |     4001 |    4 |
+| Kane    | Williamson   | 5001 | Auckland     | M    | 200000 |     NULL |    5 |
+| Trent   | Boult        | 5002 | Wellington   | M    | 100000 |     5001 |    5 |
+| Tim     | Southee      | 5003 | Christchurch | M    | 150000 |     5001 |    5 |
++---------+--------------+------+--------------+------+--------+----------+------+
+19 rows in set (0.00 sec)
+
+mysql> SELECT * FROM DEPARTMENT;
++-------------+---------+--------+--------------+
+| Dname       | Dnumber | MgrSSN | MgrStartDate |
++-------------+---------+--------+--------------+
+| India       |       1 |   1001 | 2000-02-02   |
+| Australia   |       2 |   2001 | 2002-04-04   |
+| England     |       3 |   3001 | 2008-04-06   |
+| West Indies |       4 |   4001 | 2018-02-06   |
+| New Zealand |       5 |   5001 | 2018-10-06   |
++-------------+---------+--------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM PROJECT;
++-----+----------------+------+
+| PNo | Pname          | Dnum |
++-----+----------------+------+
+|   1 | T20 World Cup  |    1 |
+|   2 | ODI World Cup  |    1 |
+|   3 | WTC            |    1 |
+|   4 | U19            |    2 |
+|   5 | IPL            |    3 |
+|   6 | CPL            |    4 |
+|   7 | NZ T20 Blast   |    5 |
+|   8 | NZ ODI Blast   |    5 |
+|   9 | Vitality Blast |    4 |
+|  10 | KFC BBL        |    2 |
++-----+----------------+------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT * FROM WORKS_ON;
++------+-----+-------+
+| ESSN | Pno | Hours |
++------+-----+-------+
+| 1001 |   1 |     5 |
+| 1001 |   3 |     4 |
+| 1002 |   1 |     5 |
+| 1003 |   2 |    10 |
+| 1004 |   3 |     8 |
+| 1005 |   3 |     6 |
+| 2001 |   4 |     5 |
+| 2002 |   4 |     6 |
+| 2002 |   9 |     2 |
+| 2003 |   9 |     1 |
+| 3001 |   5 |     4 |
+| 3002 |   5 |     3 |
+| 4001 |   6 |     4 |
+| 4001 |   9 |     2 |
+| 4002 |   6 |     3 |
+| 5001 |   7 |     4 |
+| 5001 |   8 |     2 |
+| 5002 |   7 |     8 |
+| 5002 |   8 |     4 |
++------+-----+-------+
+19 rows in set (0.00 sec)
+
+mysql> SELECT E.Ename,E.Salary FROM EMPLOYEE E
+    -> WHERE E.Salary > ALL (SELECT Salary FROM EMPLOYEE WHERE Dno = 5);
+ERROR 1054 (42S22): Unknown column 'E.Ename' in 'field list'
+mysql> SELECT E.Fname,E.Lname,E.Salary FROM EMPLOYEE E
+    -> WHERE E.Salary > ALL (SELECT Salary FROM EMPLOYEE WHERE Dno = 5);
++---------+--------+--------+
+| Fname   | Lname  | Salary |
++---------+--------+--------+
+| Virat   | Kohli  | 300000 |
+| Rohit   | Sharma | 250000 |
+| Jasprit | Bumrah | 250000 |
+| Steve   | Smith  | 250000 |
+| Joe     | Root   | 250000 |
+| Shai    | Hope   | 900000 |
++---------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT E.Fname,E.Lname,E.Salary FROM EMPLOYEE E
+    -> WHERE E.Salary > ALL (SELECT Salary FROM EMPLOYEE WHERE Dno = 5)
+    -> ORDER BY SALARY ASC;
++---------+--------+--------+
+| Fname   | Lname  | Salary |
++---------+--------+--------+
+| Rohit   | Sharma | 250000 |
+| Jasprit | Bumrah | 250000 |
+| Steve   | Smith  | 250000 |
+| Joe     | Root   | 250000 |
+| Virat   | Kohli  | 300000 |
+| Shai    | Hope   | 900000 |
++---------+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT E.Fname,E.Lname,E.Salary FROM EMPLOYEE E
+    -> WHERE E.Salary >= ALL (SELECT Salary FROM EMPLOYEE WHERE Dno = 5)
+    -> ORDER BY SALARY ASC;
++---------+------------+--------+
+| Fname   | Lname      | Salary |
++---------+------------+--------+
+| KL      | Rahul      | 200000 |
+| David   | Warner     | 200000 |
+| Benn    | Stokes     | 200000 |
+| Kane    | Williamson | 200000 |
+| Rohit   | Sharma     | 250000 |
+| Jasprit | Bumrah     | 250000 |
+| Steve   | Smith      | 250000 |
+| Joe     | Root       | 250000 |
+| Virat   | Kohli      | 300000 |
+| Shai    | Hope       | 900000 |
++---------+------------+--------+
+10 rows in set (0.00 sec)
+
+mysql> SELECT ESSN FROM WORKS_ON WHERE Pno IN (1,2,3);
++------+
+| ESSN |
++------+
+| 1001 |
+| 1002 |
+| 1003 |
+| 1001 |
+| 1004 |
+| 1005 |
++------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT W.Pno,SUM(W.HOURS) AS TotalHours
+    -> FROM WORKS_ON W
+    -> GROUP BY W.Pno;
++-----+------------+
+| Pno | TotalHours |
++-----+------------+
+|   1 |         10 |
+|   2 |         10 |
+|   3 |         18 |
+|   4 |         11 |
+|   5 |          7 |
+|   6 |          7 |
+|   7 |         12 |
+|   8 |          6 |
+|   9 |          5 |
++-----+------------+
+9 rows in set (0.00 sec)
+
+mysql>
