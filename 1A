@@ -1,0 +1,161 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 30
+Server version: 9.2.0 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> USE ONE;
+Database changed
+mysql> SELECT * FROM SAILORS;
++-----+----------+--------+------+
+| Sid | Sname    | Rating | Age  |
++-----+----------+--------+------+
+|   1 | Aryan    |      5 |   20 |
+|   2 | Brian    |      4 |   21 |
+|   3 | Carl     |      3 |   21 |
+|   4 | Drew     |      2 |   22 |
+|   5 | Elijah   |      1 |   25 |
+|   6 | Fernando |      5 |   15 |
++-----+----------+--------+------+
+6 rows in set (0.00 sec)
+
+mysql> SELECT * FROM BOATS;
++-----+--------+--------+
+| Bid | Bname  | Colour |
++-----+--------+--------+
+|   1 | Agni   | Red    |
+|   2 | Vaayu  | White  |
+|   3 | Jala   | Blue   |
+|   4 | Bhoomi | Green  |
+|   5 | Yello  | Yellow |
++-----+--------+--------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM RESERVES;
++------+------+-----------+
+| Sid  | Bid  | Day       |
++------+------+-----------+
+|    1 |    1 | Monday    |
+|    2 |    2 | Tuesday   |
+|    3 |    3 | Wednesday |
+|    4 |    4 | Thursday  |
+|    5 |    5 | Friday    |
++------+------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE DATABASE ONEA
+    -> ;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> USE ONEA;
+Database changed
+mysql> CREATE TABLE SAILORS (
+    -> Sid INT PRIMARY KEY,
+    -> Sname VARCHAR(20),
+    -> Rating INT,
+    -> Age INT);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE BOATS (
+    -> Bid INT PRIMARY KEY,
+    -> Bname VARCHAR(20),
+    -> Colour VARCHAR(20));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> CREATE TABLE RESERVES (
+    -> Sid INT,
+    -> Bid INT,
+    -> Day VARCHAR(20),
+    -> FOREIGN KEY (Sid) REFERENCES SAILORS (Sid),
+    -> FOREIGN KEY (Bid) REFERENCES BOATS (Bid));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO SAILORS (Sid,Sname,Rating,Age) VALUES (1,'Aryan',5,20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SAILORS (Sid,Sname,Rating,Age) VALUES (2,'Basavaraj',4,21);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SAILORS (Sid,Sname,Rating,Age) VALUES (3,'Aniket',3,22);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SAILORS (Sid,Sname,Rating,Age) VALUES (4,'Chirag',2,22);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SAILORS (Sid,Sname,Rating,Age) VALUES (5,'Darshan',1,21);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO SAILORS (Sid,Sname,Rating,Age) VALUES (6,'Gulshan',0,20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BOATS (Bid,Bname,Colour) VALUES (1,'Fire','Red');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BOATS (Bid,Bname,Colour) VALUES (2,'Ice','Cyan');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BOATS (Bid,Bname,Colour) VALUES (3,'Water','Blue');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BOATS (Bid,Bname,Colour) VALUES (4,'Earth','Green');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO BOATS (Bid,Bname,Colour) VALUES (5,'Air','White');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO RESERVES (Sid,Bid,Day) VALUES (1,4,'Monday');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO RESERVES (Sid,Bid,Day) VALUES (2,1,'Tuesday');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO RESERVES (Sid,Bid,Day) VALUES (3,5,'Wednesday');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO RESERVES (Sid,Bid,Day) VALUES (4,2,'Thursday');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO RESERVES (Sid,Bid,Day) VALUES (6,3,'Friday');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT S.Sname FROM SAILORS S
+    -> JOIN RESERVES R ON R.Sid = S.Sid
+    -> WHERE S.Sid IN (SELECT Sid FROM RESERVES);
++-----------+
+| Sname     |
++-----------+
+| Aryan     |
+| Basavaraj |
+| Aniket    |
+| Chirag    |
+| Gulshan   |
++-----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT R.Sid FROM RESERVES R
+    -> JOIN BOATS B ON B.Bid = R.Bid
+    -> WHERE B.Colour IN ('Red','Green');
++------+
+| Sid  |
++------+
+|    2 |
+|    1 |
++------+
+2 rows in set (0.00 sec)
+
+SELECT S.Sid FROM SAILORS S
+    -> LEFT JOIN RESERVES R ON R.Sid = S.Sid
+    -> WHERE R.Sid IS NULL;
++-----+
+| Sid |
++-----+
+|   5 |
++-----+
+1 row in set (0.00 sec)
